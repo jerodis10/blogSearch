@@ -1,5 +1,6 @@
 package com.example.blogSearch.caller;
 
+import com.example.blogSearch.dto.KakaoBlogDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -13,9 +14,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 //@RequiredArgsConstructor
 public class KakaoRestTemplateApiCaller {
 
-//    static final String HeaderName = "Authorization";
-//    static final String HeaderBaseValue = "KakaoAK ";
-
     private final RestTemplate restTemplate;
     private final KakaoProperties kakaoProperties;
 
@@ -24,52 +22,20 @@ public class KakaoRestTemplateApiCaller {
         this.kakaoProperties = kakaoProperties;
     }
 
-        public String findBlogByKeyword(String query) {
+    public KakaoBlogDto findBlogByKeyword(String query, String sort, int page, int size) {
         UriComponents uri = UriComponentsBuilder.newInstance()
-                .fromHttpUrl(kakaoProperties.getBaseUrl() + kakaoProperties.getBlogSearchUrl())
+                .path(kakaoProperties.getBlogSearchUrl())
                 .queryParam("query", query)
+                .queryParam("sort", sort)
+                .queryParam("page", page)
+                .queryParam("size", size)
                 .build();
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set(kakaoProperties.getHeaderName(), kakaoProperties.getHeaderBaseValue() + " " + kakaoProperties.getKey());
-        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-        return restTemplate.exchange(uri.toUriString(), HttpMethod.GET, entity, String.class).getBody();
+        return restTemplate.getForObject(uri.toUriString(), KakaoBlogDto.class);
     }
 
+//    public Boolean isLessOrEqualTotalCount(KakaoBlogDto kakaoBlogDto) {
+//        int totalCount = kakaoBlogDto.getTotalCount();
+//        return (kakaoProperties.getMaxDocumentCount() * kakaoProperties.getMaxPageableCount()) >= totalCount;
+//    }
 
-
-//    public KakaoPlaceDto findPlaceByCategory(String category, Rect rect, int page) {
-//        UriComponents uri = UriComponentsBuilder.newInstance()
-//                .fromHttpUrl(kakaoProperties.getBaseUrl() + kakaoProperties.getCategoryUrl())
-//                .queryParam(kakaoProperties.getCategoryGroupCode(), category)
-//                .queryParam(kakaoProperties.getRect(), rect.toKakaoUriFormat())
-//                .build();
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("Authorization", "KakaoAK "+ kakaoProperties.getKey());
-//        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-//        return restTemplate.exchange(uri.toUriString(), HttpMethod.GET, entity, KakaoPlaceDto.class).getBody();
-//    }
-//
-//    public KakaoPlaceDto findPlaceByKeyword(String category, Rect rect, String query) {
-//        UriComponents uri = UriComponentsBuilder.newInstance()
-//                .fromHttpUrl(kakaoProperties.getBaseUrl() + kakaoProperties.getKeywordUrl())
-//                .queryParam(kakaoProperties.getQuery(), query)
-//                .queryParam(kakaoProperties.getCategoryGroupCode(), category)
-//                .queryParam(kakaoProperties.getRect(), rect.toKakaoUriFormat())
-//                .build();
-//        RestTemplate restTemplate = new RestTemplate();
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set("Authorization", "KakaoAK " + kakaoProperties.getKey());
-//        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-//        return restTemplate.exchange(uri.toUriString(), HttpMethod.GET, entity, KakaoPlaceDto.class).getBody();
-//    }
-//
-//    public Boolean isLessOrEqualTotalCount(KakaoPlaceDto kakaoPlaceDto) {
-//        int totalCount = kakaoPlaceDto.getDocuments().size();
-//
-//        if(totalCount < kakaoProperties.getMaxDocumentCount()) return true;
-//        else if(totalCount >= kakaoProperties.getMaxDocumentCount()) return false;
-//        return false;
-//    }
 }
