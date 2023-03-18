@@ -1,6 +1,6 @@
 package com.example.blogSearch.service;
 
-import com.example.blogSearch.caller.KakaoRestTemplateApiCaller;
+import com.example.blogSearch.caller.kakao.KakaoRestTemplateApiCaller;
 import com.example.blogSearch.dto.KakaoBlogDto;
 import com.example.blogSearch.model.SearchWord;
 import com.example.blogSearch.repository.SearchWordRepository;

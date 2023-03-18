@@ -1,4 +1,4 @@
-package com.example.blogSearch.caller;
+package com.example.blogSearch.caller.kakao;
 
 import com.example.blogSearch.exception.KakaoExceptionHandler;
 import org.springframework.boot.web.client.RestTemplateBuilder;

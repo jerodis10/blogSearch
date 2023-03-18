@@ -1,4 +1,4 @@
-package com.example.blogSearch.caller;
+package com.example.blogSearch.caller.kakao;
 
 import lombok.Getter;
 import lombok.Setter;

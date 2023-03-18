@@ -1,11 +1,7 @@
-package com.example.blogSearch.caller;
+package com.example.blogSearch.caller.kakao;
 
 import com.example.blogSearch.dto.KakaoBlogDto;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
