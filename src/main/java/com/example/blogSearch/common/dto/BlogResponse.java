@@ -1,11 +1,13 @@
-package com.example.blogSearch.common;
+package com.example.blogSearch.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Getter
+@NoArgsConstructor
 public class BlogResponse {
 
     private Integer totalCount;

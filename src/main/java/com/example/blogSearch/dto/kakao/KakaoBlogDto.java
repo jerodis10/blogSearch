@@ -1,6 +1,5 @@
 package com.example.blogSearch.dto.kakao;
 
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;

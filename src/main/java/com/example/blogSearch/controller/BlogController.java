@@ -3,12 +3,13 @@ package com.example.blogSearch.controller;
 import com.example.blogSearch.caller.common.RestTemplateApiCaller;
 import com.example.blogSearch.caller.kakao.KakaoRestTemplateApiCaller;
 import com.example.blogSearch.caller.naver.NaverRestTemplateApiCaller;
-import com.example.blogSearch.common.BlogResponse;
-import com.example.blogSearch.dto.kakao.KakaoBlogDto;
-import com.example.blogSearch.dto.naver.NaverBlogDto;
+import com.example.blogSearch.common.dto.BlogResponse;
+import com.example.blogSearch.common.exception.BlogException;
+import com.example.blogSearch.exception.KakaoException;
 import com.example.blogSearch.model.SearchWord;
 import com.example.blogSearch.service.BlogApiService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/blog/")
 @RequiredArgsConstructor
+@Slf4j
 public class BlogController {
 
     private final RestTemplateApiCaller restTemplateApiCaller;
@@ -33,11 +35,16 @@ public class BlogController {
                              @RequestParam(required = false, defaultValue = "1") int page,
                              @RequestParam(required = false, defaultValue = "10") int size) {
 
-        blogApiService.searchWordSave(query);
+        BlogResponse blogResponse = new BlogResponse();
 
-        BlogResponse obj = restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+//        try {
+            blogApiService.searchWordSave(query);
+            blogResponse = restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+//        } catch (KakaoException e) {
+//            throw new BlogException(e);
+//        }
 
-        return obj;
+        return blogResponse;
 
 
 //        return BlogResponse.of(restTemplateApiCaller.findBlogByKeyword(query, sort, page, size));

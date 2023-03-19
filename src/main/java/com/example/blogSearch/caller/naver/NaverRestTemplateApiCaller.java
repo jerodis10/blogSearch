@@ -1,8 +1,8 @@
 package com.example.blogSearch.caller.naver;
 
 import com.example.blogSearch.caller.common.RestTemplateApiCaller;
-import com.example.blogSearch.common.BlogResponse;
-import com.example.blogSearch.common.BlogDocument;
+import com.example.blogSearch.common.dto.BlogResponse;
+import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.dto.naver.Item;
 import com.example.blogSearch.dto.naver.NaverBlogDto;
 import lombok.RequiredArgsConstructor;
@@ -50,12 +50,10 @@ public class NaverRestTemplateApiCaller implements RestTemplateApiCaller {
             documents.add(document);
         }
 
-        BlogResponse blogResponse = BlogResponse.builder()
+        return BlogResponse.builder()
                 .totalCount(naverBlogDto.getTotal())
                 .documents(documents)
                 .build();
-
-        return blogResponse;
     }
 
 

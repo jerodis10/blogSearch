@@ -1,9 +1,11 @@
 package com.example.blogSearch.exception;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 
+@Getter
 public enum KakaoExceptionStatus {
     BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), "주로 API에 필요한 필수 파라미터와 관련하여 서버가 클라이언트 오류를 감지해 요청을 처리하지 못한 상태입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "해당 리소스에 유효한 인증 자격 증명이 없어 요청에 실패한 상태입니다."),
@@ -12,19 +14,27 @@ public enum KakaoExceptionStatus {
     BAD_GATEWAY(HttpStatus.BAD_GATEWAY.value(), "서로 다른 프로토콜을 연결해주는 게이트웨이가 잘못된 프로토콜을 연결하거나 연결된 프로토콜에 문제가 있어 통신이 제대로 되지 않은 상태입니다."),
     SERVICE_UNAVAILABLE(HttpStatus.SERVICE_UNAVAILABLE.value(), "서버가 요청을 처리할 준비가 되지 않은 상태입니다.");
 
-    private int statusCode;
-    private String message;
+    private final int statusCode;
+    private final String message;
 
-    KakaoExceptionStatus(int statusCode, String message) {
+    KakaoExceptionStatus(final int statusCode, final String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
 
-    public static String of(int statusCode) {
+    public static String getMessage(int statusCode) {
         return Arrays.stream(values())
                 .filter(status -> status.statusCode == statusCode)
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new)
                 .message;
+    }
+
+    public static String getErrorType(int statusCode) {
+        return Arrays.stream(values())
+                .filter(status -> status.statusCode == statusCode)
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new)
+                .name();
     }
 }

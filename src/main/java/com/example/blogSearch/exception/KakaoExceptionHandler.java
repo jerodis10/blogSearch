@@ -18,6 +18,7 @@ public class KakaoExceptionHandler implements ResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
         int statusCode = httpResponse.getStatusCode().value();
-        throw new KakaoException(statusCode, KakaoExceptionStatus.of(statusCode));
+        throw new KakaoException(statusCode, KakaoExceptionStatus.getErrorType(statusCode), KakaoExceptionStatus.getMessage(statusCode));
+//        throw new KakaoException(statusCode, KakaoExceptionStatus.valueOf(statusCode));
     }
 }

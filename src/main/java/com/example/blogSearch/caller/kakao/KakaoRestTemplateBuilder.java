@@ -10,7 +10,7 @@ public class KakaoRestTemplateBuilder {
         return new RestTemplateBuilder()
             .rootUri(kakaoProperties.getBaseUrl())
             .errorHandler(new KakaoExceptionHandler())
-            .defaultHeader(kakaoProperties.getHeaderName(), kakaoProperties.getHeaderBaseValue() + " " + kakaoProperties.getKey())
+//            .defaultHeader(kakaoProperties.getHeaderName(), kakaoProperties.getHeaderBaseValue() + " " + kakaoProperties.getKey())
             .setConnectTimeout(Duration.ofSeconds(10))
             .setReadTimeout(Duration.ofSeconds(10));
     }

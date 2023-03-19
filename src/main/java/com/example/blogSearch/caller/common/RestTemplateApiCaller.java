@@ -1,7 +1,7 @@
 package com.example.blogSearch.caller.common;
 
 
-import com.example.blogSearch.common.BlogResponse;
+import com.example.blogSearch.common.dto.BlogResponse;
 
 public interface RestTemplateApiCaller {
 

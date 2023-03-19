@@ -1,4 +1,4 @@
-package com.example.blogSearch.common;
+package com.example.blogSearch.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package com.example.blogSearch.caller.kakao;
 
 import com.example.blogSearch.caller.common.RestTemplateApiCaller;
-import com.example.blogSearch.common.BlogResponse;
-import com.example.blogSearch.common.BlogDocument;
+import com.example.blogSearch.common.dto.BlogResponse;
+import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.dto.kakao.Document;
 import com.example.blogSearch.dto.kakao.KakaoBlogDto;
 import lombok.RequiredArgsConstructor;
@@ -51,12 +51,10 @@ public class KakaoRestTemplateApiCaller implements RestTemplateApiCaller {
             blogDocuments.add(blogDocument);
         }
 
-        BlogResponse blogResponse = BlogResponse.builder()
+        return BlogResponse.builder()
                 .totalCount(kakaoBlogDto.getTotalCount())
                 .documents(blogDocuments)
                 .build();
-
-        return blogResponse;
     }
 
 
