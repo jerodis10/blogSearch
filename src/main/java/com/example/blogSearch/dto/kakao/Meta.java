@@ -1,4 +1,4 @@
-package com.example.blogSearch.dto;
+package com.example.blogSearch.dto.kakao;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

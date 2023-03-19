@@ -1,9 +1,7 @@
-package com.example.blogSearch.dto;
+package com.example.blogSearch.dto.kakao;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -13,8 +11,6 @@ import java.util.List;
  */
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class KakaoBlogDto {
     private Meta meta;
     private List<Document> documents;
@@ -23,7 +19,4 @@ public class KakaoBlogDto {
         return this.meta.getTotalCount();
     }
 
-    public int getPageableCount() {
-        return this.meta.getPageableCount();
-    }
 }

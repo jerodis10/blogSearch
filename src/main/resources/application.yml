@@ -1,13 +1,3 @@
-kakao:
-  key: af2408226e91805021d1adc7a9d31b36
-  baseUrl: https://dapi.kakao.com
-  blogSearchUrl: /v2/search/blog
-  headerName: Authorization
-  headerBaseValue: KakaoAK
-  maxDocumentCount: 50
-  maxPageableCount: 50
-
-
 spring:
   datasource:
     url: jdbc:h2:tcp://localhost/~/blog
@@ -23,6 +13,10 @@ spring:
         hibernate:
           #          show_sql: true   # System out
           format_sql: true
+  profiles:
+    include: >
+      kakao,
+      naver
 
 
 logging:

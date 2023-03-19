@@ -1,0 +1,17 @@
+naver:
+  headerId: X-Naver-Client-Id
+  headerSecret: X-Naver-Client-Secret
+  clientId: HsYlQXCeP6he8vYuwTn5
+  clientSecret: DaPnZXoJlM
+  baseUrl: https://openapi.naver.com
+  blogSearchUrl: /v1/search/blog.json
+  query: query
+  display: display
+  start: start
+  sort: sort
+
+
+
+
+
+

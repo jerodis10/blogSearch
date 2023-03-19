@@ -1,9 +1,13 @@
 package com.example.blogSearch.controller;
 
+import com.example.blogSearch.caller.common.RestTemplateApiCaller;
 import com.example.blogSearch.caller.kakao.KakaoRestTemplateApiCaller;
-import com.example.blogSearch.dto.KakaoBlogDto;
+import com.example.blogSearch.caller.naver.NaverRestTemplateApiCaller;
+import com.example.blogSearch.common.BlogResponse;
+import com.example.blogSearch.dto.kakao.KakaoBlogDto;
+import com.example.blogSearch.dto.naver.NaverBlogDto;
 import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.service.KakaoApiService;
+import com.example.blogSearch.service.BlogApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,25 +21,67 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BlogController {
 
+    private final RestTemplateApiCaller restTemplateApiCaller;
     private final KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
-    private final KakaoApiService kakaoApiService;
+    private final NaverRestTemplateApiCaller naverRestTemplateApiCaller;
+    private final BlogApiService blogApiService;
+
 
     @GetMapping("/search")
-    public KakaoBlogDto blogSearch(@RequestParam String query,
+    public BlogResponse blogSearch(@RequestParam String query,
+                             @RequestParam(required = false, defaultValue = "accuracy") String sort,
+                             @RequestParam(required = false, defaultValue = "1") int page,
+                             @RequestParam(required = false, defaultValue = "10") int size) {
+
+        blogApiService.searchWordSave(query);
+
+        BlogResponse obj = restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+
+        return obj;
+
+
+//        return BlogResponse.of(restTemplateApiCaller.findBlogByKeyword(query, sort, page, size));
+
+//        Object obj = restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+//        return obj;
+
+//        BlogResponse response = new BlogResponse();
+//        BeanUtils.copyProperties(response, restTemplateApiCaller.findBlogByKeyword(query, sort, page, size));
+//        return response;
+    }
+
+    @GetMapping("/c-search")
+    public BlogResponse KakaoBlogSearch(@RequestParam String query,
                                    @RequestParam(required = false, defaultValue = "accuracy") String sort,
                                    @RequestParam(required = false, defaultValue = "1") int page,
                                    @RequestParam(required = false, defaultValue = "10") int size) {
 
-        kakaoApiService.searchWordSave(query);
-        KakaoBlogDto str = kakaoRestTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+        blogApiService.searchWordSave(query);
+        BlogResponse str = kakaoRestTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+        return str;
+    }
+
+    @GetMapping("/n-search")
+    public BlogResponse NaverBlogSearch(@RequestParam String query,
+                                  @RequestParam(required = false, defaultValue = "10") int display,
+                                  @RequestParam(required = false, defaultValue = "1") int start,
+                                  @RequestParam(required = false, defaultValue = "sim") String sort) {
+
+//        kakaoApiService.searchWordSave(query);
+        BlogResponse str = naverRestTemplateApiCaller.findBlogByKeyword(query, sort, display, start);
         return str;
     }
 
     @GetMapping("/keyword")
     public List<SearchWord> blogKeyword() {
-        List<SearchWord> list = kakaoApiService.searchWordTop10();
+        List<SearchWord> list = blogApiService.searchWordTop10();
         return list;
     }
+
+
+
+
+
 
 //    @GetMapping("/search")
 //    public KakaoBlogDto blogSearch(String query, @RequestParam int page) {

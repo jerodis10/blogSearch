@@ -1,0 +1,16 @@
+kakao:
+  key: af2408226e91805021d1adc7a9d31b36
+  baseUrl: https://dapi.kakao.com
+  blogSearchUrl: /v2/search/blog
+  headerName: Authorization
+  headerBaseValue: KakaoAK
+  query: query
+  sort: sort
+  page: page
+  size: size
+
+
+
+
+
+

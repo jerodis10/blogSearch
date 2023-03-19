@@ -1,4 +1,4 @@
-package com.example.blogSearch.dto;
+package com.example.blogSearch.dto.naver;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -27,35 +27,34 @@ import java.util.Objects;
 
 @Getter
 @NoArgsConstructor
-public class Document {
+public class Item {
     private String title;
-    private String contents;
-    private String url;
-    private String blogname;
-    private String thumbnail;
-    private String datetime;
+    private String link;
+    private String description;
+    private String bloggername;
+    private String bloggerlink;
+    private String postdate;
 
     @Builder
-    public Document(String title, String contents, String url, String blogname, String thumbnail, String datetime) {
+    public Item(String title, String link, String description, String bloggername, String bloggerlink, String postdate) {
         this.title = title;
-        this.contents = contents;
-        this.url = url;
-        this.blogname = blogname;
-        this.thumbnail = thumbnail;
-        this.datetime = datetime;
+        this.link = link;
+        this.description = description;
+        this.bloggername = bloggername;
+        this.bloggerlink = bloggerlink;
+        this.postdate = postdate;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Document document = (Document) o;
-        return title.equals(document.title) && contents.equals(document.contents) && url.equals(document.url) && blogname.equals(document.blogname) && thumbnail.equals(document.thumbnail) && datetime.equals(document.datetime);
+        Item item = (Item) o;
+        return title.equals(item.title) && link.equals(item.link) && description.equals(item.description) && bloggername.equals(item.bloggername) && bloggerlink.equals(item.bloggerlink) && postdate.equals(item.postdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, contents, url, blogname, thumbnail, datetime);
+        return Objects.hash(title, link, description, bloggername, bloggerlink, postdate);
     }
-
 }
