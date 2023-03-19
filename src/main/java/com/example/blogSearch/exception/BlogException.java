@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class KakaoException extends RuntimeException {
+public class BlogException extends RuntimeException {
 
     private final int statusCode;
     private final String errorType;

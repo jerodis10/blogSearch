@@ -20,7 +20,6 @@ public class BlogConfiguration {
     private final NaverProperties naverProperties;
 
 
-    @Primary
     @Bean
     public KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller() {
         RestTemplate restTemplate = KakaoRestTemplateBuilder.get(kakaoProperties)
@@ -29,6 +28,7 @@ public class BlogConfiguration {
     }
 
 
+    @Primary
     @Bean
     public NaverRestTemplateApiCaller naverRestTemplateApiCaller() {
         RestTemplate restTemplate = NaverRestTemplateBuilder.get(naverProperties)

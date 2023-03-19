@@ -4,8 +4,6 @@ import com.example.blogSearch.caller.common.RestTemplateApiCaller;
 import com.example.blogSearch.caller.kakao.KakaoRestTemplateApiCaller;
 import com.example.blogSearch.caller.naver.NaverRestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
-import com.example.blogSearch.common.exception.BlogException;
-import com.example.blogSearch.exception.KakaoException;
 import com.example.blogSearch.model.SearchWord;
 import com.example.blogSearch.service.BlogApiService;
 import lombok.RequiredArgsConstructor;

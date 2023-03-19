@@ -8,7 +8,7 @@ import java.io.IOException;
 import static org.springframework.http.HttpStatus.Series.CLIENT_ERROR;
 import static org.springframework.http.HttpStatus.Series.SERVER_ERROR;
 
-public class KakaoExceptionHandler implements ResponseErrorHandler {
+public class BlogExceptionHandler implements ResponseErrorHandler {
     @Override
     public boolean hasError(ClientHttpResponse httpResponse) throws IOException {
         return httpResponse.getStatusCode().series() == CLIENT_ERROR
@@ -18,7 +18,6 @@ public class KakaoExceptionHandler implements ResponseErrorHandler {
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
         int statusCode = httpResponse.getStatusCode().value();
-        throw new KakaoException(statusCode, KakaoExceptionStatus.getErrorType(statusCode), KakaoExceptionStatus.getMessage(statusCode));
-//        throw new KakaoException(statusCode, KakaoExceptionStatus.valueOf(statusCode));
+        throw new BlogException(statusCode, BlogExceptionStatus.getErrorType(statusCode), BlogExceptionStatus.getMessage(statusCode));
     }
 }

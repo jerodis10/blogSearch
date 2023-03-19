@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.util.Arrays;
 
 @Getter
-public enum KakaoExceptionStatus {
+public enum BlogExceptionStatus {
     BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), "주로 API에 필요한 필수 파라미터와 관련하여 서버가 클라이언트 오류를 감지해 요청을 처리하지 못한 상태입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED.value(), "해당 리소스에 유효한 인증 자격 증명이 없어 요청에 실패한 상태입니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN.value(), "서버에 요청이 전달되었지만, 권한 때문에 거절된 상태입니다."),
@@ -17,7 +17,7 @@ public enum KakaoExceptionStatus {
     private final int statusCode;
     private final String message;
 
-    KakaoExceptionStatus(final int statusCode, final String message) {
+    BlogExceptionStatus(final int statusCode, final String message) {
         this.statusCode = statusCode;
         this.message = message;
     }
