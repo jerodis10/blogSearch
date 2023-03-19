@@ -28,7 +28,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         return queryFactory
                 .selectFrom(searchWord)
                 .orderBy(searchWord.searchCount.desc())
-                .offset(1)
+                .offset(0)
                 .limit(10)
                 .fetch();
     }
