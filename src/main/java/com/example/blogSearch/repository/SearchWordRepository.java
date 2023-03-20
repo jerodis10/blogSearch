@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface SearchWordRepository {
 
+    SearchWord findByKeyword(String keyword);
+
+    List<SearchWord> findAll();
+
     List<SearchWord> findTop10();
 
-    void save(String keyword);
+    SearchWord save(String keyword);
 
 }

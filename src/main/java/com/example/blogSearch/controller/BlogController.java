@@ -30,13 +30,14 @@ public class BlogController {
 
 
     @GetMapping("/search")
-    public BlogResponse blogSearch(@RequestParam @NotNull String query,
+    public List<BlogResponse> blogSearch(@RequestParam @NotNull String query,
                                    @RequestParam(required = false, defaultValue = "accuracy") String sort,
                                    @RequestParam(required = false, defaultValue = "1") @Min(value = 1, message = "페이지는 1 이상이어야 합니다.") int page,
                                    @RequestParam(required = false, defaultValue = "10") @Min(value = 1, message = "한 페이지에 보여질 문서는 1 이상이어야 합니다.") int size) {
 
         blogApiService.searchWordSave(query);
-        return restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
+        return blogApiService.findPlaces(query, sort, page, size);
+//        return restTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
     }
 
     @GetMapping("/keyword")

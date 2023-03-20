@@ -23,6 +23,22 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+
+    @Override
+    public SearchWord findByKeyword(String keyword) {
+        return queryFactory
+                .selectFrom(searchWord)
+                .where(searchWord.keyword.eq(keyword))
+                .fetchOne();
+    }
+
+    @Override
+    public List<SearchWord> findAll() {
+        return queryFactory
+                .selectFrom(searchWord)
+                .fetch();
+    }
+
     @Override
     public List<SearchWord> findTop10() {
         return queryFactory
@@ -34,7 +50,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
     }
 
     @Override
-    public void save(String keyword) {
+    public SearchWord save(String keyword) {
         SearchWord findSearchWord = queryFactory
                 .selectFrom(searchWord)
                 .where(searchWord.keyword.eq(keyword))
@@ -45,9 +61,12 @@ public class JpaSearchWordRepository implements SearchWordRepository {
                     .keyword(keyword)
                     .searchCount(1)
                     .build();
+
             em.persist(searchWord);
+            return searchWord;
         } else {
-            findSearchWord.changeSearchCount(findSearchWord.getSearchCount() + 1);
+            findSearchWord.changeSearchCount(findSearchWord.getSearchCount());
+            return findSearchWord;
         }
     }
 

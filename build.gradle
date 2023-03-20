@@ -32,6 +32,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.assertj:assertj-core:3.20.2"
 }
 
 tasks.named('test') {

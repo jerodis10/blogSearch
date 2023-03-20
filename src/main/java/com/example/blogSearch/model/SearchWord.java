@@ -29,7 +29,7 @@ public class SearchWord {
     }
 
     public void changeSearchCount(int searchCount) {
-        this.searchCount = searchCount;
+        this.searchCount = searchCount + 1;
     }
 
 }
