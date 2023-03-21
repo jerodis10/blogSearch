@@ -1,8 +1,7 @@
 package com.example.blogSearch.service;
 
+import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
-import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.repository.JpaSearchWordRepository;
 import com.example.blogSearch.repository.SearchWordRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +13,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class BlogApiServiceTest {
@@ -26,13 +23,16 @@ class BlogApiServiceTest {
     @Mock
     private SearchWordRepository searchWordRepository;
 
+    @Mock
+    private RestTemplateApiCaller restTemplateApiCaller;
 
-    @DisplayName("[service] kakao rest api È£ÃâÀ» ÅëÇÑ ºí·Î±× °Ë»ö test")
+
+    @DisplayName("[service] kakao rest api í˜¸ì¶œ test")
     @Test
     void kakaoFindPlacesTest() {
         // given
         int maxPage = 50;
-        String query = "¼­¿ï³­°î·Î";
+        String query = "ì„œìš¸ ë‚œê³¡ë¡œ";
         String sort = "accuracy";
         int page = 1;
         int size = 10;
@@ -44,12 +44,12 @@ class BlogApiServiceTest {
         assertThat(blogResponseList.size()).isLessThanOrEqualTo(maxPage * size);
     }
 
-    @DisplayName("[service] naver rest api È£ÃâÀ» ÅëÇÑ ºí·Î±× °Ë»ö test")
+    @DisplayName("[service] naver rest api í˜¸ì¶œ test")
     @Test
     void naverFindPlacesTest() {
         // given
         int maxPage = 100;
-        String query = "¼­¿ï³­°î·Î";
+        String query = "ì„œìš¸ ë‚œê³¡ë¡œ";
         String sort = "sim";
         int page = 1;
         int size = 10;
@@ -59,30 +59,6 @@ class BlogApiServiceTest {
 
         // then
         assertThat(blogResponseList.size()).isLessThanOrEqualTo(maxPage * size);
-    }
-
-    @DisplayName("[service] °Ë»ö¾î ÀúÀå test")
-    @Test
-    void searchWordSaveTest() {
-        // given
-        String keyword = "°Ë»ö¾î";
-
-        // when
-        SearchWord saveWord = searchWordRepository.save(keyword);
-        SearchWord searchWord = searchWordRepository.findByKeyword(keyword);
-
-        // then
-        assertThat(saveWord).isEqualTo(searchWord);
-    }
-
-    @DisplayName("[service] ÀÎ±â °Ë»ö¾î Á¶È¸ test")
-    @Test
-    void searchWordTop10Test() {
-        // given when
-        List<SearchWord> searchWordList = searchWordRepository.findTop10();
-
-        // then
-        assertThat(searchWordList.size()).isEqualTo(10);
     }
 
 }

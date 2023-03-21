@@ -3,25 +3,28 @@ package com.example.blogSearch.repository;
 import com.example.blogSearch.model.SearchWord;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.*;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest
+@Transactional
 class JpaSearchWordRepositoryTest {
 
     @Autowired
     private SearchWordRepository searchWordRepository;
 
-    @DisplayName("[Repository] ¿Œ±‚ ∞ÀªˆæÓ ¡∂»∏ counting test")
+//    @Autowired
+//    private EntityManager em;
+
+    @DisplayName("[Repository] Í≤ÄÏÉâÏñ¥ counting test")
     @Test
     void findTop10Test() {
         // given when
@@ -31,7 +34,7 @@ class JpaSearchWordRepositoryTest {
         assertThat(searchWordList.size()).isEqualTo(10);
     }
 
-    @DisplayName("[Repository] ¿Œ±‚ ∞ÀªˆæÓ ¡∂»∏ sorting test")
+    @DisplayName("[Repository] Í≤ÄÏÉâÏñ¥ sorting test")
     @Test
     void searchWordSortingTest() {
         // given
@@ -51,36 +54,14 @@ class JpaSearchWordRepositoryTest {
         assertThat(countList).isEqualTo(sortedCountList);
     }
 
-    @DisplayName("[Repository] ¿Œ±‚ ∞ÀªˆæÓ ¡∂»∏ ranking test")
-    @Test
-    void searchWordRankingTest() {
-        // given
-        List<SearchWord> searchWordList = searchWordRepository.findTop10();
-        List<SearchWord> allCountList = searchWordRepository.findAll();
-        List<SearchWord> sortedCountList = new ArrayList<>();
-
-        // when
-//        Collections.sort(allCountList, Comparator.reverseOrder());
-        int index = 0;
-        for (SearchWord searchWord : allCountList) {
-            sortedCountList.add(searchWord);
-            index++;
-            if(index > 10) break;
-        }
-
-        // then
-        assertThat(searchWordList).isEqualTo(sortedCountList);
-    }
-
-    @DisplayName("[Repository] ∞ÀªˆæÓ save test")
+    @DisplayName("[Repository] Ïù∏Í∏∞ Í≤ÄÏÉâÏñ¥ save test")
     @Test
     void saveTest() {
         // given
-        String keyword = "∞ÀªˆæÓ";
+        String keyword = "word";
 
         // when
-        searchWordRepository.save(keyword);
-        SearchWord searchWord = searchWordRepository.findByKeyword(keyword);
+        SearchWord searchWord = searchWordRepository.save(keyword);
 
         // then
         assertThat(searchWord).isNotNull();

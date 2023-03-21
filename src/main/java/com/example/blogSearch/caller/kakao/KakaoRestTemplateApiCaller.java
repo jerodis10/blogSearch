@@ -1,6 +1,6 @@
 package com.example.blogSearch.caller.kakao;
 
-import com.example.blogSearch.caller.common.RestTemplateApiCaller;
+import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.dto.kakao.Document;
@@ -32,36 +32,20 @@ public class KakaoRestTemplateApiCaller implements RestTemplateApiCaller {
                 .build();
 
         KakaoBlogDto kakaoBlogDto = restTemplate.getForObject(uri.toUriString(), KakaoBlogDto.class);
-        return responseDtoMapping(kakaoBlogDto);
+        return kakaoBlogDto.toBlogResponse(kakaoBlogDto);
     }
 
-
-    public BlogResponse responseDtoMapping(KakaoBlogDto kakaoBlogDto) {
-        List<BlogDocument> blogDocuments = new ArrayList<>();
-
-        for (Document document : kakaoBlogDto.getDocuments()) {
-            BlogDocument blogDocument = BlogDocument.builder()
-                    .title(document.getTitle())
-                    .contents(document.getContents())
-                    .url(document.getUrl())
-                    .blogname(document.getBlogname())
-                    .datetime(document.getDatetime())
-                    .build();
-
-            blogDocuments.add(blogDocument);
-        }
-
-        return BlogResponse.builder()
-                .totalCount(kakaoBlogDto.getTotalCount())
-                .documents(blogDocuments)
-                .build();
+    @Override
+    public Boolean isLessOrEqualTotalCount(BlogResponse blogResponse) {
+        int totalCount = blogResponse.getTotalCount();
+        return getMaxCount() <= totalCount;
     }
 
-
-
-//    public Boolean isLessOrEqualTotalCount(KakaoBlogDto kakaoBlogDto) {
-//        int totalCount = kakaoBlogDto.getTotalCount();
-//        return (kakaoProperties.getMaxDocumentCount() * kakaoProperties.getMaxPageableCount()) >= totalCount;
-//    }
+    @Override
+    public Integer getMaxCount() {
+        int maxPage = Integer.parseInt(kakaoProperties.getMaxPage());
+        int maxSize = Integer.parseInt(kakaoProperties.getMaxSize());
+        return maxPage * maxSize;
+    }
 
 }

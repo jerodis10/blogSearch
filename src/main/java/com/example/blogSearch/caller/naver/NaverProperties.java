@@ -42,4 +42,8 @@ public class NaverProperties {
 
     private String sort;
 
+    private String maxPage;
+
+    private String maxSize;
+
 }

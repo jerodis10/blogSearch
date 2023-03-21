@@ -8,6 +8,8 @@ kakao:
   sort: sort
   page: page
   size: size
+  maxPage: 50
+  maxSize: 50
 
 
 

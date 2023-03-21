@@ -39,5 +39,9 @@ public class KakaoProperties {
 
     private String size;
 
+    private String maxPage;
+
+    private String maxSize;
+
 
 }

@@ -1,6 +1,6 @@
 package com.example.blogSearch.caller.naver;
 
-import com.example.blogSearch.caller.common.RestTemplateApiCaller;
+import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.dto.naver.Item;
@@ -32,46 +32,20 @@ public class NaverRestTemplateApiCaller implements RestTemplateApiCaller {
                 .build();
 
         NaverBlogDto naverBlogDto = restTemplate.getForObject(uri.toUriString(), NaverBlogDto.class);
-        return responseDtoMapping(naverBlogDto);
+        return naverBlogDto.toBlogResponse(naverBlogDto);
     }
 
-    public BlogResponse responseDtoMapping(NaverBlogDto naverBlogDto) {
-        List<BlogDocument> documents = new ArrayList<>();
-
-        for (Item item : naverBlogDto.getItems()) {
-            BlogDocument document = BlogDocument.builder()
-                    .title(item.getTitle())
-                    .contents(item.getDescription())
-                    .url(item.getBloggerlink())
-                    .blogname(item.getBloggername())
-                    .datetime(item.getPostdate())
-                    .build();
-
-            documents.add(document);
-        }
-
-        return BlogResponse.builder()
-                .totalCount(naverBlogDto.getTotal())
-                .documents(documents)
-                .build();
+    @Override
+    public Boolean isLessOrEqualTotalCount(BlogResponse blogResponse) {
+        int totalCount = blogResponse.getTotalCount();
+        return getMaxCount() <= totalCount;
     }
 
-
-
-//    public KakaoBlogDto findBlogByKeyword(String query, String sort, int page, int size) {
-//        UriComponents uri = UriComponentsBuilder.newInstance()
-//                .path(naverProperties.getBlogSearchUrl())
-//                .queryParam("query", query)
-//                .queryParam("sort", sort)
-//                .queryParam("page", page)
-//                .queryParam("size", size)
-//                .build();
-//        return restTemplate.getForObject(uri.toUriString(), KakaoBlogDto.class);
-//    }
-
-//    public Boolean isLessOrEqualTotalCount(KakaoBlogDto kakaoBlogDto) {
-//        int totalCount = kakaoBlogDto.getTotalCount();
-//        return (kakaoProperties.getMaxDocumentCount() * kakaoProperties.getMaxPageableCount()) >= totalCount;
-//    }
+    @Override
+    public Integer getMaxCount() {
+        int maxPage = Integer.parseInt(naverProperties.getMaxPage());
+        int maxSize = Integer.parseInt(naverProperties.getDisplay());
+        return maxPage * maxSize;
+    }
 
 }

@@ -1,22 +1,16 @@
 package com.example.blogSearch.model;
 
-import com.example.blogSearch.repository.SearchWordRepository;
-import com.example.blogSearch.service.BlogApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 class SearchWordTest {
 
-    @DisplayName("[domain] searchWord ª˝º∫ test")
+    @DisplayName("[domain] searchWord ÏÉùÏÑ± test")
     @Test
     void SearchWordBuilderTest() {
         // given
@@ -34,7 +28,7 @@ class SearchWordTest {
         assertThat(searchWord.getSearchCount()).isEqualTo(searchCount);
     }
 
-    @DisplayName("[domain] searchWord ∞Àªˆµ» »Ωºˆ update test")
+    @DisplayName("[domain] searchWord searchCount update test")
     @Test
     void changeSearchCountTest() {
         // given

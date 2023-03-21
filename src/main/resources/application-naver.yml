@@ -9,6 +9,8 @@ naver:
   display: display
   start: start
   sort: sort
+  maxPage: 100
+  maxSize: 100
 
 
 

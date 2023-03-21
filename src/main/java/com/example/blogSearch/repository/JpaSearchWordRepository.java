@@ -2,6 +2,7 @@ package com.example.blogSearch.repository;
 
 import com.example.blogSearch.model.SearchWord;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
