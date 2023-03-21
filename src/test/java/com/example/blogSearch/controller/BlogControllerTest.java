@@ -108,7 +108,7 @@ class BlogControllerTest {
 
         List<SearchWord> result = List.of(searchWord);
 
-        when(blogApiService.searchWordTop10()).thenReturn(result);
+        when(blogApiService.searchWordPopular()).thenReturn(result);
 
         //when then
         mockMvc.perform(get("/blog/keyword")

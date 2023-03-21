@@ -3,7 +3,9 @@ package com.example.blogSearch.service;
 import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.model.SearchWord;
+import com.example.blogSearch.model.SearchWordPopular;
 import com.example.blogSearch.repository.SearchWordRepository;
+import com.example.blogSearch.repository.SearchWordSaveStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ public class BlogApiService {
 
     private final RestTemplateApiCaller restTemplateApiCaller;
     private final SearchWordRepository searchWordRepository;
+    private final SearchWordSaveStrategy searchWordSaveStrategy;
+
 
     @Transactional
     public List<BlogResponse> blogSearch(String query, String sort, int page, int size) {
@@ -51,12 +55,20 @@ public class BlogApiService {
     }
 
     public void searchWordSave(String keyword) {
-        searchWordRepository.save(keyword);
+        searchWordSaveStrategy.save(keyword);
+
+//        searchWordRepository.save(keyword);
     }
 
     @Transactional(readOnly = true)
-    public List<SearchWord> searchWordTop10() {
-        return searchWordRepository.findTop10();
+    public List<SearchWord> searchWordPopular() {
+        return searchWordRepository.findPopular();
+//        return searchWordRepository.findPopularBySorting();
     }
+
+//    @Transactional(readOnly = true)
+//    public List<SearchWord> searchWordPopular2() {
+//        return searchWordRepository.findPopular();
+//    }
 
 }

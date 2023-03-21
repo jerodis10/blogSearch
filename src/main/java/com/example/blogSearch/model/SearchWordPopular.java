@@ -6,13 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Cacheable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Cacheable
 @Entity
-public class SearchWord extends BaseEntity {
+public class SearchWordPopular extends BaseEntity {
 
     @Id
     @GeneratedValue
@@ -22,13 +25,17 @@ public class SearchWord extends BaseEntity {
 
     private int searchCount;
 
-//    @Version
-//    private Long version;
-
     @Builder
-    public SearchWord(String keyword, int searchCount) {
+    public SearchWordPopular(String keyword, int searchCount) {
         this.keyword = keyword;
         this.searchCount = searchCount;
+    }
+
+    public SearchWord searchWordBinding() {
+        return SearchWord.builder()
+                .keyword(keyword)
+                .searchCount(searchCount)
+                .build();
     }
 
     public void changeSearchCount(int searchCount) {

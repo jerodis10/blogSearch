@@ -5,6 +5,7 @@ import com.example.blogSearch.caller.kakao.KakaoRestTemplateApiCaller;
 import com.example.blogSearch.caller.naver.NaverRestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.model.SearchWord;
+import com.example.blogSearch.model.SearchWordPopular;
 import com.example.blogSearch.service.BlogApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,10 @@ public class BlogController {
     private final BlogApiService blogApiService;
 
 
+    /**
+     * @param  = 0 이면 최대로 가져올 수 있는 블로그 전체 조회
+     *           아니면 Pagination 형태로 제공
+     */
     @GetMapping("/search")
     public List<BlogResponse> blogSearch(
             @RequestParam @NotNull String query,
@@ -39,15 +44,25 @@ public class BlogController {
         return blogApiService.blogSearch(query, sort, page, size);
     }
 
+    /**
+     * 인기 블로그 조회
+     */
     @GetMapping("/keyword")
     public List<SearchWord> blogKeyword() {
-        return blogApiService.searchWordTop10();
+        return blogApiService.searchWordPopular();
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
+
+
+//    @GetMapping("/keyword2")
+//    public List<SearchWordPopular> blogKeyword2() {
+//        return blogApiService.searchWordPopular2();
+//    }
+
+//    @GetMapping("/test")
+//    public String test() {
+//        return "test";
+//    }
 
 
 //    @GetMapping("/c-search")

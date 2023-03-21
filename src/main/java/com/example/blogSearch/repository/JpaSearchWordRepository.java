@@ -1,15 +1,18 @@
 package com.example.blogSearch.repository;
 
+import com.example.blogSearch.common.config.PopularProperties;
 import com.example.blogSearch.model.SearchWord;
+import com.example.blogSearch.model.SearchWordPopular;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.blogSearch.model.QSearchWord.searchWord;
+import static com.example.blogSearch.model.QSearchWordPopular.searchWordPopular;
 
 
 @Primary
@@ -18,10 +21,12 @@ public class JpaSearchWordRepository implements SearchWordRepository {
 
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
+    private final PopularProperties popularProperties;
 
-    public JpaSearchWordRepository(EntityManager em) {
+    public JpaSearchWordRepository(EntityManager em, PopularProperties popularProperties) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
+        this.popularProperties = popularProperties;
     }
 
 
@@ -41,13 +46,23 @@ public class JpaSearchWordRepository implements SearchWordRepository {
     }
 
     @Override
-    public List<SearchWord> findTop10() {
+    public List<SearchWordPopular> findAllPopular() {
+        return queryFactory
+                .selectFrom(searchWordPopular)
+                .orderBy(searchWordPopular.searchCount.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<SearchWord> findPopular() {
+        int popularCount = Integer.parseInt(popularProperties.getPopularCount());
         return queryFactory
                 .selectFrom(searchWord)
                 .orderBy(searchWord.searchCount.desc())
                 .offset(0)
-                .limit(10)
+                .limit(popularCount)
                 .fetch();
+
     }
 
     @Override
@@ -69,6 +84,32 @@ public class JpaSearchWordRepository implements SearchWordRepository {
             findSearchWord.changeSearchCount(findSearchWord.getSearchCount());
             return findSearchWord;
         }
+    }
+
+    @Override
+    public SearchWordPopular popularSave(SearchWord searchWord) {
+        SearchWordPopular findSearchWordPopular = queryFactory
+                .selectFrom(searchWordPopular)
+                .where(searchWordPopular.keyword.eq(searchWord.getKeyword()))
+                .fetchOne();
+
+        if (findSearchWordPopular == null) {
+            SearchWordPopular searchWordPopular = SearchWordPopular.builder()
+                    .keyword(searchWord.getKeyword())
+                    .searchCount(searchWord.getSearchCount())
+                    .build();
+
+            em.persist(searchWordPopular);
+            return searchWordPopular;
+        } else {
+            findSearchWordPopular.changeSearchCount(findSearchWordPopular.getSearchCount());
+            return findSearchWordPopular;
+        }
+    }
+
+    @Override
+    public void delete(SearchWordPopular searchWordPopular) {
+        em.remove(searchWordPopular);
     }
 
 }
