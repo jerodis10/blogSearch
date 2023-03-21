@@ -45,7 +45,7 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public CustomResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.info("MethodArgumentNotValidException : {}", e.getMessage());
+        log.error("MethodArgumentNotValidException : {}", e.getMessage());
         return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.WRONG_ARGUMENT.getStatusCode()),
                                     CommonExceptionStatus.WRONG_ARGUMENT.name(),
                                     CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
@@ -54,7 +54,7 @@ public class ExceptionControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public CustomResponse<Void> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.info("HttpRequestMethodNotSupportedException : {}", e.getMessage());
+        log.error("HttpRequestMethodNotSupportedException : {}", e.getMessage());
         return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.REQUEST_NOT_ALLOWED.getStatusCode()),
                                     CommonExceptionStatus.REQUEST_NOT_ALLOWED.name(),
                                     CommonExceptionStatus.REQUEST_NOT_ALLOWED.getMessage());

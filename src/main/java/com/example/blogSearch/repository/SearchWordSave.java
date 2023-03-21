@@ -1,15 +1,12 @@
 package com.example.blogSearch.repository;
 
 import com.example.blogSearch.common.config.PopularProperties;
+import com.example.blogSearch.model.PopularWord;
 import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.model.SearchWordPopular;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Primary
@@ -26,20 +23,27 @@ public class SearchWordSave implements SearchWordSaveStrategy {
         int popularCount = Integer.parseInt(popularProperties.getPopularCount());
 
         int popularSize = 0;
-        List<SearchWordPopular> SearchWordPopularList = searchWordRepository.findAllPopular();
-        popularSize = SearchWordPopularList.size();
+        List<PopularWord> popularWordList = searchWordRepository.findAllPopular();
+        popularSize = popularWordList.size();
 
         if (popularSize < popularCount) {
-            return searchWordRepository.popularSave(savedSearWord).searchWordBinding();
+            return searchWordBinding(searchWordRepository.popularSave(savedSearWord));
         } else if (popularSize == popularCount) {
-            for (SearchWordPopular searchWordPopular : SearchWordPopularList) {
-                if (searchWordPopular.getSearchCount() < savedSearWord.getSearchCount()) {
-                    searchWordRepository.delete(searchWordPopular);
-                    return searchWordRepository.popularSave(savedSearWord).searchWordBinding();
+            for (PopularWord popularWord : popularWordList) {
+                if (popularWord.getSearchCount() < savedSearWord.getSearchCount()) {
+                    searchWordRepository.delete(popularWord);
+                    return searchWordBinding(searchWordRepository.popularSave(savedSearWord));
                 }
             }
         }
 
         return savedSearWord;
     }
+
+    public SearchWord searchWordBinding(PopularWord popularWord) {
+        return SearchWord.builder()
+                .keyword(popularWord.getKeyword())
+                .searchCount(popularWord.getSearchCount())
+                .build();
+}
 }

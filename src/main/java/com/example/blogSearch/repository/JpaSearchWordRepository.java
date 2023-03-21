@@ -1,18 +1,17 @@
 package com.example.blogSearch.repository;
 
 import com.example.blogSearch.common.config.PopularProperties;
+import com.example.blogSearch.model.PopularWord;
 import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.model.SearchWordPopular;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.blogSearch.model.QSearchWord.searchWord;
-import static com.example.blogSearch.model.QSearchWordPopular.searchWordPopular;
+import static com.example.blogSearch.model.QPopularWord.popularWord;
 
 
 @Primary
@@ -46,10 +45,13 @@ public class JpaSearchWordRepository implements SearchWordRepository {
     }
 
     @Override
-    public List<SearchWordPopular> findAllPopular() {
+    public List<PopularWord> findAllPopular() {
+//        return em.createQuery("select s from PopularWord s", PopularWord.class)
+//                .getResultList();
+
         return queryFactory
-                .selectFrom(searchWordPopular)
-                .orderBy(searchWordPopular.searchCount.asc())
+                .selectFrom(popularWord)
+                .orderBy(popularWord.searchCount.asc())
                 .fetch();
     }
 
@@ -62,7 +64,6 @@ public class JpaSearchWordRepository implements SearchWordRepository {
                 .offset(0)
                 .limit(popularCount)
                 .fetch();
-
     }
 
     @Override
@@ -87,29 +88,29 @@ public class JpaSearchWordRepository implements SearchWordRepository {
     }
 
     @Override
-    public SearchWordPopular popularSave(SearchWord searchWord) {
-        SearchWordPopular findSearchWordPopular = queryFactory
-                .selectFrom(searchWordPopular)
-                .where(searchWordPopular.keyword.eq(searchWord.getKeyword()))
+    public PopularWord popularSave(SearchWord searchWord) {
+        PopularWord findPopularWord = queryFactory
+                .selectFrom(popularWord)
+                .where(popularWord.keyword.eq(searchWord.getKeyword()))
                 .fetchOne();
 
-        if (findSearchWordPopular == null) {
-            SearchWordPopular searchWordPopular = SearchWordPopular.builder()
+        if (findPopularWord == null) {
+            PopularWord popularWord = com.example.blogSearch.model.PopularWord.builder()
                     .keyword(searchWord.getKeyword())
                     .searchCount(searchWord.getSearchCount())
                     .build();
 
-            em.persist(searchWordPopular);
-            return searchWordPopular;
+            em.persist(popularWord);
+            return popularWord;
         } else {
-            findSearchWordPopular.changeSearchCount(findSearchWordPopular.getSearchCount());
-            return findSearchWordPopular;
+            findPopularWord.changeSearchCount(findPopularWord.getSearchCount());
+            return findPopularWord;
         }
     }
 
     @Override
-    public void delete(SearchWordPopular searchWordPopular) {
-        em.remove(searchWordPopular);
+    public void delete(PopularWord popularWord) {
+        em.remove(popularWord);
     }
 
 }

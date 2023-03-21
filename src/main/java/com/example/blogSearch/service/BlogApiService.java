@@ -2,8 +2,8 @@ package com.example.blogSearch.service;
 
 import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
+import com.example.blogSearch.common.dto.PopularBlogResponse;
 import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.model.SearchWordPopular;
 import com.example.blogSearch.repository.SearchWordRepository;
 import com.example.blogSearch.repository.SearchWordSaveStrategy;
 import lombok.RequiredArgsConstructor;
@@ -56,19 +56,22 @@ public class BlogApiService {
 
     public void searchWordSave(String keyword) {
         searchWordSaveStrategy.save(keyword);
-
-//        searchWordRepository.save(keyword);
     }
 
     @Transactional(readOnly = true)
-    public List<SearchWord> searchWordPopular() {
-        return searchWordRepository.findPopular();
-//        return searchWordRepository.findPopularBySorting();
-    }
+    public List<PopularBlogResponse> searchWordPopular() {
+        List<PopularBlogResponse> result = new ArrayList<>();
+        List<SearchWord> searchWordList = searchWordRepository.findPopular();
+        for (SearchWord searchWord : searchWordList) {
+            PopularBlogResponse popularBlogResponse = PopularBlogResponse.builder()
+                    .keyword(searchWord.getKeyword())
+                    .searchCount(searchWord.getSearchCount())
+                    .build();
 
-//    @Transactional(readOnly = true)
-//    public List<SearchWord> searchWordPopular2() {
-//        return searchWordRepository.findPopular();
-//    }
+            result.add(popularBlogResponse);
+        }
+
+        return result;
+    }
 
 }

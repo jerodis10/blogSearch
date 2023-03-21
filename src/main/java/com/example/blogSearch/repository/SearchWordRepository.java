@@ -1,7 +1,7 @@
 package com.example.blogSearch.repository;
 
+import com.example.blogSearch.model.PopularWord;
 import com.example.blogSearch.model.SearchWord;
-import com.example.blogSearch.model.SearchWordPopular;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ public interface SearchWordRepository {
 
     List<SearchWord> findAll();
 
-    List<SearchWordPopular> findAllPopular();
+    List<PopularWord> findAllPopular();
 
     List<SearchWord> findPopular();
 
     SearchWord save(String keyword);
 
-    SearchWordPopular popularSave(SearchWord searchWord);
+    PopularWord popularSave(SearchWord searchWord);
 
-    void delete(SearchWordPopular searchWordPopular);
+    void delete(PopularWord popularWord);
 
 }
