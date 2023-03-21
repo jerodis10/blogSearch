@@ -28,11 +28,11 @@ public class BlogConfiguration {
         return new KakaoRestTemplateApiCaller(restTemplate, kakaoProperties);
     }
 
-
     @Bean
     public NaverRestTemplateApiCaller naverRestTemplateApiCaller() {
         RestTemplate restTemplate = NaverRestTemplateBuilder.get(naverProperties)
                 .build();
         return new NaverRestTemplateApiCaller(restTemplate, naverProperties);
     }
+
 }
