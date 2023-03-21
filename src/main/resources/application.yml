@@ -11,6 +11,8 @@ spring:
       ddl-auto: update
       properties:
         hibernate:
+          default_batch_fetch_size: 1000
+          open-in-view: false
           show_sql: true   # System out
           format_sql: true
   profiles:

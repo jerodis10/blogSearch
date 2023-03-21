@@ -1,5 +1,6 @@
 package com.example.blogSearch.model;
 
+import com.example.blogSearch.common.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +13,14 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class SearchWord {
+public class SearchWord extends BaseEntity {
 
     @Id
     @GeneratedValue
     private Long id;
+
+//    @Version
+//    private Long version;
 
     private String keyword;
 
