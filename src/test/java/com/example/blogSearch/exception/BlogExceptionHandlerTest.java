@@ -64,7 +64,8 @@ class BlogExceptionHandlerTest {
 
         assertThatThrownBy(() -> restTemplate.getForObject(BASE_URL + QUERY, BlogResponse.class))
                 .isInstanceOf(BlogException.class)
-                .extracting("statusCode")
-                .isEqualTo(status.value());
+                .extracting("errorCode")
+                .asString()
+                .isEqualTo(status.name());
     }
 }

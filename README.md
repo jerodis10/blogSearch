@@ -1,0 +1,1 @@
+https://raw.githubusercontent.com/jerodis10/blogSearch/build/libs/blogSearch-0.0.1-SNAPSHOT.jar

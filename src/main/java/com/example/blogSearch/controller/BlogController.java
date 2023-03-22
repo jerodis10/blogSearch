@@ -41,7 +41,6 @@ public class BlogController {
             @RequestParam(required = false, defaultValue = "1") @Min(value = 0, message = "페이지는 0 이상이어야 합니다.") int page,
             @RequestParam(required = false, defaultValue = "10") @Min(value = 1, message = "한 페이지에 보여질 문서는 1 이상이어야 합니다.") int size)  {
 
-//        runtimeException();
         return blogApiService.blogSearch(query, sort, page, size);
     }
 

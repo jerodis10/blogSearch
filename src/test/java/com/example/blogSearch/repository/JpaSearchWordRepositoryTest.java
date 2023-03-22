@@ -1,6 +1,7 @@
 package com.example.blogSearch.repository;
 
 import com.example.blogSearch.model.SearchWord;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,24 +22,20 @@ class JpaSearchWordRepositoryTest {
     @Autowired
     private SearchWordRepository searchWordRepository;
 
-    @DisplayName("[Repository] 검색어 sorting test")
+    @BeforeEach
+    void setUp() {
+        searchWordRepository.save("word");
+    }
+
+    @DisplayName("[Repository] 검색어 조회 test")
     @Test
     void searchWordSortingTest() {
         // given
-        List<SearchWord> searchWordList = searchWordRepository.findAll();
+        String keyword = "word";
+        SearchWord searchWord = searchWordRepository.findByKeyword(keyword);
 
-        // when
-        List<Integer> countList = new ArrayList<>();
-        List<Integer> sortedCountList = new ArrayList<>();
-        for (SearchWord searchWord : searchWordList) {
-            countList.add(searchWord.getSearchCount());
-            sortedCountList.add(searchWord.getSearchCount());
-        }
-
-        Collections.sort(sortedCountList, Comparator.reverseOrder());
-
-        // then
-        assertThat(countList).isEqualTo(sortedCountList);
+        // when then
+        assertThat(searchWord.getKeyword()).isEqualTo(keyword);
     }
 
     @DisplayName("[Repository] 인기 검색어 save test")

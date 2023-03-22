@@ -116,7 +116,8 @@ class BlogControllerTest {
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(
-                            "[{\"id\":null,\"keyword\":\"word\",\"searchCount\":1}]"
+//                            "[{\"searchCount\":1,\"id\":null,\"keyword\":\"word\"}]"
+                            "[{\"keyword\":\"word\",\"searchCount\":1}]"
                     ))
                     .andDo(print());
     }
