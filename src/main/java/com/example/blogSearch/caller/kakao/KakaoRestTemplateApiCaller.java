@@ -25,7 +25,7 @@ public class KakaoRestTemplateApiCaller implements RestTemplateApiCaller {
     public BlogResponse findBlogByKeyword(String query, String sort, int page, int size) {
         UriComponents uri = UriComponentsBuilder.newInstance()
                 .path(kakaoProperties.getBlogSearchUrl())
-                .queryParam(kakaoProperties.getQuery(), query)
+//                .queryParam(kakaoProperties.getQuery(), query)
                 .queryParam(kakaoProperties.getSort(), sort)
                 .queryParam(kakaoProperties.getPage(), page)
                 .queryParam(kakaoProperties.getSize(), size)

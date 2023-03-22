@@ -1,4 +1,4 @@
-package com.example.blogSearch.dto;
+package com.example.blogSearch.exception;
 
 import lombok.AccessLevel;
 import lombok.Getter;

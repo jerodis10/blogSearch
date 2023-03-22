@@ -1,64 +1,83 @@
 package com.example.blogSearch.exception;
 
-import com.example.blogSearch.common.exception.CommonExceptionStatus;
-import com.example.blogSearch.dto.CustomResponse;
+import com.example.blogSearch.common.exception.CommonErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
 @RestControllerAdvice
-public class ExceptionControllerAdvice {
+public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BlogException.class)
-    public CustomResponse<Void> handleKakaoException(BlogException e) {
-        String message = String.format("KakaoException : %s", e.getMessage());
-        log.error(message, e);
-        return CustomResponse.error(e.getStatusCode(), e.getErrorType(), e.getMessage());
+    public ResponseEntity<Object> handleBlogException(BlogException e) {
+        log.error("BlogException : {}", e.getMessage());
+
+        ErrorCode errorCode = e.getErrorCode();
+        return handleExceptionInternal(errorCode);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(Exception.class)
-    public CustomResponse<Void> handleException(Exception e) {
-        String message = String.format("Unexpected Exception : %s", e.getMessage());
-        log.error(message, e);
-        return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.UNEXPECTED.getStatusCode()),
-                                    CommonExceptionStatus.UNEXPECTED.name(),
-                                    CommonExceptionStatus.UNEXPECTED.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public CustomResponse<Void> handleIllegalArgumentException(IllegalArgumentException e) {
-        String message = String.format("Wrong Argument Exception : %s", e.getMessage());
-        log.error(message, e);
-        return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.WRONG_ARGUMENT.getStatusCode()),
-                                    CommonExceptionStatus.WRONG_ARGUMENT.name(),
-                                    CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.error("handleIllegalArgumentException : {}", e.getMessage());
+
+        ErrorCode errorCode = CommonErrorCode.WRONG_ARGUMENT;
+        return handleExceptionInternal(errorCode, e.getMessage());
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public CustomResponse<Void> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("MethodArgumentNotValidException : {}", e.getMessage());
-        return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.WRONG_ARGUMENT.getStatusCode()),
-                                    CommonExceptionStatus.WRONG_ARGUMENT.name(),
-                                    CommonExceptionStatus.WRONG_ARGUMENT.getMessage());
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException e,
+            HttpHeaders headers,
+            HttpStatus status,
+            WebRequest request) {
+        log.warn("handleIllegalArgument", e);
+        ErrorCode errorCode = CommonErrorCode.WRONG_ARGUMENT;
+        return handleExceptionInternal(e, errorCode);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public CustomResponse<Void> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        log.error("HttpRequestMethodNotSupportedException : {}", e.getMessage());
-        return CustomResponse.error(Integer.parseInt(CommonExceptionStatus.REQUEST_NOT_ALLOWED.getStatusCode()),
-                                    CommonExceptionStatus.REQUEST_NOT_ALLOWED.name(),
-                                    CommonExceptionStatus.REQUEST_NOT_ALLOWED.getMessage());
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllException(Exception e) {
+        log.warn("handleAllException", e);
+
+        ErrorCode errorCode = CommonErrorCode.INTERNAL_SERVER_ERROR;
+        return handleExceptionInternal(errorCode);
     }
 
+
+    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode) {
+        return ResponseEntity.status(errorCode.getHttpStatus())
+                .body(makeErrorResponse(errorCode));
+    }
+
+    private ErrorResponse makeErrorResponse(ErrorCode errorCode) {
+        return ErrorResponse.builder()
+                .code(errorCode.name())
+                .message(errorCode.getMessage())
+                .build();
+    }
+
+    private ResponseEntity<Object> handleExceptionInternal(ErrorCode errorCode, String message) {
+        return ResponseEntity.status(errorCode.getHttpStatus())
+                .body(makeErrorResponse(errorCode, message));
+    }
+
+    private ErrorResponse makeErrorResponse(ErrorCode errorCode, String message) {
+        return ErrorResponse.builder()
+                .code(errorCode.name())
+                .message(message)
+                .build();
+    }
+
+    private ResponseEntity<Object> handleExceptionInternal(MethodArgumentNotValidException e, ErrorCode errorCode) {
+        return ResponseEntity.status(errorCode.getHttpStatus())
+                .body(makeErrorResponse(errorCode, e.getMessage()));
+    }
 
 }

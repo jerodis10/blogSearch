@@ -17,7 +17,11 @@ public class BlogExceptionHandler implements ResponseErrorHandler {
 
     @Override
     public void handleError(ClientHttpResponse httpResponse) throws IOException {
-        int statusCode = httpResponse.getStatusCode().value();
-        throw new BlogException(statusCode, BlogExceptionStatus.getErrorType(statusCode), BlogExceptionStatus.getMessage(statusCode));
+//        int statusCode = httpResponse.getStatusCode().value();
+        String httpResponseName = httpResponse.getStatusCode().name();
+//        ErrorCode errorCode =
+        throw new BlogException(BlogErrorCode.valueOf(httpResponseName));
+//        throw new BlogException(BlogErrorCode.valueOf(String.valueOf(httpResponse.getStatusCode())));
+//        throw new BlogException(statusCode, BlogExceptionStatus.getCode(statusCode), BlogExceptionStatus.getMessage(statusCode));
     }
 }

@@ -7,6 +7,8 @@ import com.example.blogSearch.service.BlogApiService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,18 +29,19 @@ public class BlogController {
 
 
     /**
-     * @param  = 0 이면 최대로 가져올 수 있는 블로그 전체 조회
-     *           0 이상이면 Pagination 형태로 제공
+     * 블로그 검색
+     * @param sort = 0 이면 최대로 가져올 수 있는 블로그 전체 조회
+     *               0 이상이면 Pagination 형태로 제공
      */
-    @CircuitBreaker(name = "hello", fallbackMethod = "getCircuitBreakerFallback")
+//    @CircuitBreaker(name = "hello", fallbackMethod = "getCircuitBreakerFallback")
     @GetMapping("/search")
     public List<BlogResponse> blogSearch(
             @RequestParam @NotNull String query,
             @RequestParam(required = false, defaultValue = "accuracy") String sort,
             @RequestParam(required = false, defaultValue = "1") @Min(value = 0, message = "페이지는 0 이상이어야 합니다.") int page,
-            @RequestParam(required = false, defaultValue = "10") @Min(value = 1, message = "한 페이지에 보여질 문서는 1 이상이어야 합니다.") int size) {
+            @RequestParam(required = false, defaultValue = "10") @Min(value = 1, message = "한 페이지에 보여질 문서는 1 이상이어야 합니다.") int size)  {
 
-        runtimeException();
+//        runtimeException();
         return blogApiService.blogSearch(query, sort, page, size);
     }
 
@@ -48,11 +51,12 @@ public class BlogController {
     @CircuitBreaker(name = "hello", fallbackMethod = "getCircuitBreakerFallback")
     @GetMapping("/keyword")
     public List<PopularBlogResponse> blogKeyword() {
-        runtimeException();
+//        runtimeException();
         return blogApiService.searchWordPopular();
     }
 
-    private void runtimeException() {
+    private void runtimeException()  {
+//        throw new HttpRequestMethodNotSupportedException("blogKeyword");
         throw new RuntimeException("failed");
     }
 
