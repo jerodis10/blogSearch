@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,12 +23,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class JpaSearchWordRepositoryTest {
 
+    private final int searchCount = 0;
+    private final int threadCount = 300;
+    private ExecutorService executorService;
+    private CountDownLatch countDownLatch;
+
     @Autowired
     private SearchWordRepository searchWordRepository;
 
     @BeforeEach
     void setUp() {
         searchWordRepository.save("word");
+        executorService = Executors.newFixedThreadPool(threadCount);
+        countDownLatch = new CountDownLatch(threadCount);
     }
 
     @DisplayName("[Repository] 검색어 조회 test")
@@ -49,6 +60,42 @@ class JpaSearchWordRepositoryTest {
 
         // then
         assertThat(searchWord).isNotNull();
+    }
+
+    @Test
+    @DisplayName("[Repository] 단일 쓰레드일 경우 searchCount update test")
+    void updateTest() {
+        // given
+        String keyword = "word";
+
+        // when
+        SearchWord searchWord = searchWordRepository.findByKeyword(keyword);
+
+        //then
+        assertThat(searchWord.getSearchCount()).isEqualTo(searchCount + 1);
+    }
+
+    @Test
+    @DisplayName("[Repository] 멀티 쓰레드일 경우 searchCount update test")
+    void updateMultiTest() throws InterruptedException {
+        // given
+        String keyword = "word";
+
+        // when
+        IntStream.range(0, threadCount).forEach(e ->
+            executorService.submit(() -> {
+                    try {
+                        searchWordRepository.save(keyword);
+                    } finally {
+                        countDownLatch.countDown();
+                    }
+                }
+            ));
+            countDownLatch.await();
+
+        //then
+        SearchWord searchWord = searchWordRepository.findByKeyword(keyword);
+        assertThat(searchWord.getSearchCount()).isEqualTo(searchCount + 1);
     }
 
 

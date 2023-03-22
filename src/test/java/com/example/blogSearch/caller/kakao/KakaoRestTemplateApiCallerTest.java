@@ -20,7 +20,7 @@ class KakaoRestTemplateApiCallerTest {
 
     @InjectMocks
     private KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
-//
+
     @Mock
     private RestTemplate restTemplate;
 

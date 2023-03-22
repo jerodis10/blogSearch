@@ -4,7 +4,6 @@ import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.common.dto.PopularBlogResponse;
-import com.example.blogSearch.model.SearchWord;
 import com.example.blogSearch.service.BlogApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ class BlogControllerTest {
     void blogSearchTest() throws Exception {
         // given
         BlogDocument blogDocument = BlogDocument.builder()
-                .title("블로그")
+                .title("title")
                 .contents("content")
                 .url("url")
                 .blogname("name")
@@ -65,6 +64,9 @@ class BlogControllerTest {
                     .param("query", "word")
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
+                    .andExpect(content().json(
+                            "[{\"totalCount\":1,\"documents\":[{\"title\":\"title\",\"contents\":\"content\",\"url\":\"url\",\"blogname\":\"name\",\"datetime\":\"2020\"}]}]"
+                    ))
                     .andDo(print());
     }
 
@@ -98,7 +100,7 @@ class BlogControllerTest {
                     .andDo(print());
     }
 
-    @DisplayName("[Controller] searchWordTop10 test")
+    @DisplayName("[Controller] popularBlogSearch test")
     @Test
     void searchWordTop10() throws Exception {
         // given
@@ -116,7 +118,6 @@ class BlogControllerTest {
                     .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().json(
-//                            "[{\"searchCount\":1,\"id\":null,\"keyword\":\"word\"}]"
                             "[{\"keyword\":\"word\",\"searchCount\":1}]"
                     ))
                     .andDo(print());
