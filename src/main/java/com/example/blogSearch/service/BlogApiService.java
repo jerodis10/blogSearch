@@ -54,11 +54,11 @@ public class BlogApiService {
         int countSum = 0;
 
         BlogResponse curPage = restTemplateApiCaller.findBlogByKeyword(query, sort, pageCount, size);
-        if (restTemplateApiCaller.isLessOrEqualTotalCount(curPage) && countSum < restTemplateApiCaller.getMaxCount()) {
+        if (countSum < restTemplateApiCaller.getMaxCount()) {
             result.add(curPage);
             countSum += size;
             BlogResponse nextPage = restTemplateApiCaller.findBlogByKeyword(query, sort, ++pageCount, size);
-            while (restTemplateApiCaller.isLessOrEqualTotalCount(nextPage) && countSum < restTemplateApiCaller.getMaxCount()) {
+            while (countSum < restTemplateApiCaller.getMaxCount()) {
                 result.add(nextPage);
                 countSum += size;
             }
