@@ -21,24 +21,11 @@ class JpaSearchWordRepositoryTest {
     @Autowired
     private SearchWordRepository searchWordRepository;
 
-//    @Autowired
-//    private EntityManager em;
-
-//    @DisplayName("[Repository] 검색어 counting test")
-//    @Test
-//    void findTop10Test() {
-//        // given when
-//        List<SearchWord> searchWordList = searchWordRepository.findPopularBySorting();
-//
-//        // then
-//        assertThat(searchWordList.size()).isEqualTo(10);
-//    }
-
     @DisplayName("[Repository] 검색어 sorting test")
     @Test
     void searchWordSortingTest() {
         // given
-        List<SearchWord> searchWordList = searchWordRepository.findPopularBySorting();
+        List<SearchWord> searchWordList = searchWordRepository.findAll();
 
         // when
         List<Integer> countList = new ArrayList<>();

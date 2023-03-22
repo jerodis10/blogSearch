@@ -1,6 +1,5 @@
 package com.example.blogSearch.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

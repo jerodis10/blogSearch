@@ -1,38 +1,27 @@
 package com.example.blogSearch.caller.kakao;
 
-import com.example.blogSearch.common.dto.BlogDocument;
-import com.example.blogSearch.common.dto.BlogResponse;
 import com.example.blogSearch.dto.kakao.KakaoBlogDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest
 class KakaoRestTemplateApiCallerTest {
 
     @InjectMocks
-//    @Autowired
     private KakaoRestTemplateApiCaller kakaoRestTemplateApiCaller;
 //
     @Mock
-////    @Autowired
     private RestTemplate restTemplate;
 
     @Mock
@@ -82,26 +71,5 @@ class KakaoRestTemplateApiCallerTest {
         //then
         assertThat(uri.toUriString()).isEqualTo("/v2/search/blog?query=word&sort=accuracy&page=1&size=10");
     }
-
-//    @Test
-//    @DisplayName("키워드에 대한 Kakao API 통신 확인")
-//    void kakaoBlogCallerTest2() {
-//        // given
-//        String query = "서울난곡로";
-//        String sort = "accuracy";
-//        int page = 1;
-//        int size = 10;
-//
-//        // when
-//        BlogResponse result = kakaoRestTemplateApiCaller.findBlogByKeyword(query, sort, page, size);
-//        int totalCount = result.getTotalCount();
-//        int documentSize = result.getDocuments().size();
-//
-//        //then
-//        assertThat(result).isNotNull();
-//        assertThat(totalCount).isNotEqualTo(0);
-//        assertThat(documentSize).isNotEqualTo(0);
-//    }
-
 
 }

@@ -49,9 +49,6 @@ public class JpaSearchWordRepository implements SearchWordRepository {
 
     @Override
     public List<PopularWord> findAllPopular() {
-//        return em.createQuery("select s from PopularWord s", PopularWord.class)
-//                .getResultList();
-
         return queryFactory
                 .selectFrom(popularWord)
                 .orderBy(popularWord.searchCount.asc())

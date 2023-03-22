@@ -2,17 +2,12 @@ package com.example.blogSearch.caller.naver;
 
 import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogResponse;
-import com.example.blogSearch.common.dto.BlogDocument;
-import com.example.blogSearch.dto.naver.Item;
 import com.example.blogSearch.dto.naver.NaverBlogDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

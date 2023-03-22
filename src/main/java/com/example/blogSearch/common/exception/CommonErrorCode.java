@@ -8,11 +8,6 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 @Getter
 public enum CommonErrorCode implements ErrorCode {
-//    UNEXPECTED("COMMON_0000", "요청을 처리하지 못했습니다."),
-//    REQUEST_NOT_ALLOWED("COMMON_0100", "처리할 수 없는 요청 URI입니다."),
-//    WRONG_ARGUMENT("COMMON_1000", "전달받은 매개변수가 올바르지 않습니다."),
-//    ALREADY_PERSIST("COMMON_2000", "이미 등록되었습니다."),
-//    NOT_PERSIST("COMMON_2100", "등록되어있지 않습니다.");
 
     UNEXPECTED(HttpStatus.BAD_REQUEST, "요청을 처리하지 못했습니다."),
     REQUEST_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "처리할 수 없는 요청 URI입니다."),
@@ -24,8 +19,4 @@ public enum CommonErrorCode implements ErrorCode {
     private final HttpStatus httpStatus;
     private final String message;
 
-//    CommonErrorCode(final String statusCode, final String message) {
-//        this.statusCode = statusCode;
-//        this.message = message;
-//    }
 }

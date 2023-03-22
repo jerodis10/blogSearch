@@ -27,8 +27,6 @@ public class PopularWord extends BaseEntity {
 
     private int searchCount;
 
-//    @Version
-//    private Long version;
 
     @Builder
     public PopularWord(String keyword, int searchCount) {

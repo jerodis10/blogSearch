@@ -33,7 +33,7 @@ public class BlogController {
      * @param sort = 0 이면 최대로 가져올 수 있는 블로그 전체 조회
      *               0 이상이면 Pagination 형태로 제공
      */
-//    @CircuitBreaker(name = "hello", fallbackMethod = "getCircuitBreakerFallback")
+    @CircuitBreaker(name = "circuit-test", fallbackMethod = "getCircuitBreakerFallback")
     @GetMapping("/search")
     public List<BlogResponse> blogSearch(
             @RequestParam @NotNull String query,
@@ -48,17 +48,11 @@ public class BlogController {
     /**
      * 인기 블로그 조회
      */
-    @CircuitBreaker(name = "hello", fallbackMethod = "getCircuitBreakerFallback")
     @GetMapping("/keyword")
     public List<PopularBlogResponse> blogKeyword() {
-//        runtimeException();
         return blogApiService.searchWordPopular();
     }
 
-    private void runtimeException()  {
-//        throw new HttpRequestMethodNotSupportedException("blogKeyword");
-        throw new RuntimeException("failed");
-    }
 
     private List<BlogResponse> getCircuitBreakerFallback(String query, String sort, int page, int size, Throwable t) {
         return blogApiService.naverBlogSearch(query, sort, page, size);

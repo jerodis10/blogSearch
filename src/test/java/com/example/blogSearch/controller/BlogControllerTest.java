@@ -3,6 +3,7 @@ package com.example.blogSearch.controller;
 import com.example.blogSearch.caller.RestTemplateApiCaller;
 import com.example.blogSearch.common.dto.BlogDocument;
 import com.example.blogSearch.common.dto.BlogResponse;
+import com.example.blogSearch.common.dto.PopularBlogResponse;
 import com.example.blogSearch.model.SearchWord;
 import com.example.blogSearch.service.BlogApiService;
 import org.junit.jupiter.api.DisplayName;
@@ -101,12 +102,12 @@ class BlogControllerTest {
     @Test
     void searchWordTop10() throws Exception {
         // given
-        SearchWord searchWord = SearchWord.builder()
+        PopularBlogResponse popularBlogResponse = PopularBlogResponse.builder()
                 .keyword("word")
                 .searchCount(1)
                 .build();
 
-        List<SearchWord> result = List.of(searchWord);
+        List<PopularBlogResponse> result = List.of(popularBlogResponse);
 
         when(blogApiService.searchWordPopular()).thenReturn(result);
 

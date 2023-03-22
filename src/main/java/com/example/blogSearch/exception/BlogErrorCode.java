@@ -9,6 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Getter
 public enum BlogErrorCode implements ErrorCode{
+
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "주로 API에 필요한 필수 파라미터와 관련하여 서버가 클라이언트 오류를 감지해 요청을 처리하지 못한 상태입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "해당 리소스에 유효한 인증 자격 증명이 없어 요청에 실패한 상태입니다."),
     FORBIDDEN(HttpStatus.FORBIDDEN, "서버에 요청이 전달되었지만, 권한 때문에 거절된 상태입니다."),
@@ -19,24 +20,4 @@ public enum BlogErrorCode implements ErrorCode{
     private final HttpStatus httpStatus;
     private final String message;
 
-//    BlogExceptionStatus(final int statusCode, final String message) {
-//        this.statusCode = statusCode;
-//        this.message = message;
-//    }
-
-//    public static String getMessage(int status) {
-//        return Arrays.stream(values())
-//                .filter(s -> s.status == status)
-//                .findFirst()
-//                .orElseThrow(IllegalArgumentException::new)
-//                .message;
-//    }
-//
-//    public static BlogErrorCode getCode(int status) {
-//        return Arrays.stream(values())
-//                .filter(s -> s.httpStatus.value() == status)
-//                .findFirst()
-//                .orElseThrow(IllegalArgumentException::new)
-//
-//    }
 }

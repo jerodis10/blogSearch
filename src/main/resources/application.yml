@@ -40,13 +40,8 @@ resilience4j:
       default:
         maxRetryAttempts: 5 # 최대 재시도 수
         waitDuration: 5000  # 재시도 사이에 고정된 시간 [ms]
-        #retryExceptions:
-        #  - org.springframework.web.client.HttpServerErrorException
-        #  - java.io.IOException
-        #ignoreExceptions:
-        #  - java.util.NoSuchElementException
     instances:
-      hello:
+      circuit-test:
         baseConfig: default
   circuitbreaker:
     configs:
@@ -61,6 +56,6 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 10
         waitDurationInOpenState: 10s  # 서킷의 상태가 Open 에서 Half-open 으로 변경되기전에 Circuit Break가 기다리는 시간 [s]
     instances:
-      chello:
+      circuit-test:
         baseConfig: default
 

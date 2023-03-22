@@ -27,8 +27,6 @@ public class SearchWord extends BaseEntity {
 
     private int searchCount;
 
-//    @Version
-//    private Long version;
 
     @Builder
     public SearchWord(String keyword, int searchCount) {
