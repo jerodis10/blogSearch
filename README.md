@@ -7,7 +7,7 @@
 ### * 블로그 검색 api
   - Pagination 형태가 아닌 검색어에 해당되는 블로그 전체 검색 
     - 요청 파라미터 page = 0 으로 넘길 시 전체 검색  
-      - ex) blog/search?query=서울난곡로205&page=0
+      - ex) blog/search?query=서울시청&page=0
     - 최대 page * size 까지만 검색 가능
 
 
