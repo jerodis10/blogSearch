@@ -4,9 +4,10 @@
 
 
 ## 추가 기능 구현
-- 블로그 검색 api
+### * 블로그 검색 api
   - Pagination 형태가 아닌 검색어에 해당되는 블로그 전체 검색 
-    - 요청 파라미터 page = 0 으로 넘길 시 전체 검색  ex) blog/search?query=서울난곡로205&page=0
+    - 요청 파라미터 page = 0 으로 넘길 시 전체 검색  
+      - ex) blog/search?query=서울난곡로205&page=0
     - 최대 page * size 까지만 검색 가능
 
 
@@ -28,7 +29,7 @@
 
 
 ## REST API 명세서
-- 블로그 검색 (GET - /blog/search)
+### * 블로그 검색 (GET - /blog/search)
   - Request
     - Parameter
       - query : String | 검색을 원하는 질의어 | 필수 O
@@ -42,10 +43,9 @@
       - contents : String | 블로그 글 요약
       - url : String | 블로그 글 URL
       - blogname : String | 블로그의 이름
-      - thumbnail : String | 미리 보기 이미지 URL
       - datetime : Datetime | 블로그 글 작성시간
 
-- 인기 검색어 목록 (GET - /blog/keyword)
+### * 인기 검색어 목록 (GET - /blog/keyword)
   - Response
     - keyword : String | 인기 검색어
     - searchCount : Integer | 검색된 횟수
