@@ -2,9 +2,7 @@ package com.example.blogSearch.repository;
 
 import com.example.blogSearch.model.PopularWord;
 import com.example.blogSearch.model.SearchWord;
-import org.springframework.data.jpa.repository.Lock;
 
-import javax.persistence.LockModeType;
 import java.util.List;
 
 public interface SearchWordRepository {
