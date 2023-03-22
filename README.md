@@ -1,6 +1,6 @@
 
 ## 빌드 결과물 링크
-[다운로드] https://raw.githubusercontent.com/jerodis10/blogSearch/master/excute/blogSearch-0.0.1-SNAPSHOT.jar
+[다운로드](https://raw.githubusercontent.com/jerodis10/blogSearch/master/excute/blogSearch-0.0.1-SNAPSHOT.jar)
 
 
 ## 추가 기능 구현
