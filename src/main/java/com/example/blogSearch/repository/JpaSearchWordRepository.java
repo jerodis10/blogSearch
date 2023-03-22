@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 import java.util.List;
 
 import static com.example.blogSearch.model.QSearchWord.searchWord;
@@ -34,6 +35,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         return queryFactory
                 .selectFrom(searchWord)
                 .where(searchWord.keyword.eq(keyword))
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetchOne();
     }
 
@@ -41,6 +43,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
     public List<SearchWord> findAll() {
         return queryFactory
                 .selectFrom(searchWord)
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 
@@ -52,6 +55,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         return queryFactory
                 .selectFrom(popularWord)
                 .orderBy(popularWord.searchCount.asc())
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 
@@ -63,6 +67,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
                 .orderBy(searchWord.searchCount.desc())
                 .offset(0)
                 .limit(popularCount)
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetch();
     }
 
@@ -71,6 +76,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         SearchWord findSearchWord = queryFactory
                 .selectFrom(searchWord)
                 .where(searchWord.keyword.eq(keyword))
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetchOne();
 
         if (findSearchWord == null) {
@@ -92,6 +98,7 @@ public class JpaSearchWordRepository implements SearchWordRepository {
         PopularWord findPopularWord = queryFactory
                 .selectFrom(popularWord)
                 .where(popularWord.keyword.eq(searchWord.getKeyword()))
+                .setLockMode(LockModeType.PESSIMISTIC_WRITE)
                 .fetchOne();
 
         if (findPopularWord == null) {
