@@ -16,7 +16,8 @@
   - SQL 로그를 쿼리와 함께 바인딩된 파라미터의 타입과 값을 출력
 
 - Resilience4j
-  - Retry, Circuit Breaker 적용
+  - Circuit Breaker 적용 
+      (카카오 블로그 검색 API에 장애가 발생 시, 네이버 블로그 검색 API 으로 Fallback)
 
 - Lombok
   - 어노테이션 기반의 코드 자동 생성을 통한 생산성 향상
